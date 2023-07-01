@@ -145,7 +145,7 @@ const Signup = () => {
         {/* login page link */}
         <span
           className="text-blue-400 text-sm font-semibold cursor-pointer"
-          onClick={() => navigate("/signup")}
+          onClick={() => navigate("/login")}
         >
           Click to login
         </span>
