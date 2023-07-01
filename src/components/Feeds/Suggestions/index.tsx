@@ -115,7 +115,7 @@ const Suggestions = () => {
   }, []);
 
   return (
-    <div className="flex flex-col ml-5 w-full">
+    <div className="flex flex-col mt-2 ml-5 w-full h-[480px] overflow-y-auto overflow-x-hidden px-4 scrollbar-thin scrollbar-thumb-black/40 shadow-lg">
       <div className="flex justify-between mb-2 mt-6">
         <h3 className="font-bold text-sm text-gray-400">Suggestions</h3>
         <button className="font-semibold text-sm text-gray-700">see all</button>

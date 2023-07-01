@@ -23,7 +23,7 @@ const Feeds = () => {
           </section>
           {/* right part of feed */}
           <section className="hidden xl:inline-grid md:col-span-1">
-            <div className="fixed top-24 w-80 h-full overflow-y-auto overflow-x-hidden">
+            <div className="fixed top-24 w-96">
               {/* mini profile section  */}
               <MiniProfile userInfo={userInfo} />
               {/* component for suggestions */}
