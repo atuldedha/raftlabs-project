@@ -22,31 +22,28 @@ const Suggestions = () => {
   const [following, setFollowing] = useState<Array<CommonState>>([]);
 
   useEffect(() => {
-    const fetchSuggestedUsers = async () => {
-      const queryString = query(collection(db, "Users"));
-      getDocs(queryString)
-        .then((querySnapshot) => {
-          const temp: Array<CommonState> = [];
-          querySnapshot.docs.forEach((document) => {
-            temp.push({
-              uid: document.id,
-              username: document.data()?.username,
-              userImage: document.data()?.userImage || "",
-              following: document.data()?.following || [],
-              followers: document.data()?.followers || [],
-              status: document.data()?.status || "",
-              ...document.data(),
-            });
+    const unSub = onSnapshot(
+      collection(db, "Users"),
+      (snapshots) => {
+        const temp: Array<CommonState> = [];
+        snapshots.docs.forEach((document) => {
+          temp.push({
+            uid: document.id,
+            username: document.data()?.username,
+            userImage: document.data()?.userImage || "",
+            following: document.data()?.following || [],
+            followers: document.data()?.followers || [],
+            status: document.data()?.status || "",
+            ...document.data(),
           });
-
-          setSuggestions(temp);
-        })
-        .catch((err) => {
-          console.log(err);
         });
-    };
-
-    fetchSuggestedUsers();
+        setSuggestions(temp);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    return () => unSub();
   }, []);
 
   // handler func. follow button click
@@ -123,19 +120,17 @@ const Suggestions = () => {
         <h3 className="font-bold text-sm text-gray-400">Suggestions</h3>
         <button className="font-semibold text-sm text-gray-700">see all</button>
       </div>
-      {suggestions?.map(
-        (item) =>
-          item.uid !== userInfo?.uid && (
-            // suggestion card component
-            <SuggestionCard
-              following={following}
-              handleFollowButtonClick={handleFollowButtonClick}
-              item={item}
-              userInfo={userInfo}
-              key={item.uid}
-            />
-          )
-      )}
+      {suggestions?.map((item) => (
+        // item.uid !== userInfo?.uid &&
+        // suggestion card component
+        <SuggestionCard
+          following={following}
+          handleFollowButtonClick={handleFollowButtonClick}
+          item={item}
+          userInfo={userInfo}
+          key={item.uid}
+        />
+      ))}
     </div>
   );
 };
