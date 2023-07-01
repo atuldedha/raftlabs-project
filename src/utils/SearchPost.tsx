@@ -1,60 +1,56 @@
-export type SearchPersonNode = {
-  data: {
-    timestamp: Date;
-    caption: string;
-    postImage: string;
-    likes: number;
-    comments: number;
-    username: string;
-    userImage: string;
-    uid: string;
-  };
-  left?: SearchPersonNode;
-  right?: SearchPersonNode;
-};
+import { PostsState } from "../../typings";
+// bst type declaration
+export interface SearchPersonNode {
+  username: string;
+  posts: PostsState[];
+  left: SearchPersonNode | null;
+  right: SearchPersonNode | null;
+}
+// create node func.
+const createNode = (post: PostsState): SearchPersonNode => ({
+  username: post.username,
+  posts: [post],
+  left: null,
+  right: null,
+});
 
+// insert a node func.
 export const insertNode = (
-  root: SearchPersonNode,
-  data: {
-    timestamp: Date;
-    caption: string;
-    postImage: string;
-    likes: number;
-    comments: number;
-    username: string;
-    userImage: string;
-    uid: string;
-  }
+  node: SearchPersonNode | null,
+  post: PostsState
 ): SearchPersonNode => {
-  if (!root) {
-    return { data };
+  if (node === null) {
+    return createNode(post);
   }
 
-  if (data.username < root.data.username) {
-    if (root.left) {
-      root.left = insertNode(root.left, data);
-    }
-  } else if (data.username > root.data.username) {
-    if (root.right) {
-      root.right = insertNode(root.right, data);
-    }
+  if (post.username < node.username) {
+    node.left = insertNode(node.left, post);
+  } else if (post.username > node.username) {
+    node.right = insertNode(node.right, post);
+  } else {
+    node.posts.push(post);
   }
 
-  return root;
+  return node;
 };
 
+// search node func.
 export const searchByUsername = (
-  root: SearchPersonNode | null,
+  node: SearchPersonNode | null,
   username: string
-): SearchPersonNode | null => {
-  if (!root || root.data.username === username) {
-    return root;
+): PostsState[] => {
+  if (node === null) {
+    return [];
   }
-
-  if (username < root.data.username) {
-    if (root.left) return searchByUsername(root.left, username);
+  if (username) {
+    if (node.username.includes(username)) {
+      return node.posts;
+    } else if (username < node.username) {
+      return searchByUsername(node.left, username);
+    } else {
+      return searchByUsername(node.right, username);
+    }
+  } else {
+    return [];
   }
-  if (root.right) return searchByUsername(root.right, username);
-
-  return null;
 };
