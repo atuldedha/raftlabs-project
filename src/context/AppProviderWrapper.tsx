@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import providers from "./providers";
 
 interface AppProviderProps {
-  children: ReactNode;
+  children: any;
 }
 
 // Binding All of the providers from each context
