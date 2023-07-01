@@ -148,11 +148,13 @@ const Posts = ({ userInfo }: PostsProps) => {
         ) : (
           <span>No Result Found</span>
         )
-      ) : (
+      ) : allPosts?.length > 0 ? (
         // else show all posts
         allPosts?.map((data) => (
           <PostCard userInfo={userInfo} data={data} key={data.id} />
         ))
+      ) : (
+        <span>No Posts to show</span>
       )}
     </div>
   );
