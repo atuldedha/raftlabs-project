@@ -110,6 +110,8 @@ const Posts = ({ userInfo }: PostsProps) => {
       (a, b) => b?.timestamp?.toMillis() - a?.timestamp?.toMillis()
     );
 
+    // setting all posts
+    setAllPosts([...combinedArray]);
     // adding posts to bst tree
     let temp: SearchPersonNode | null = null;
     combinedArray.forEach((item) => {
@@ -123,13 +125,12 @@ const Posts = ({ userInfo }: PostsProps) => {
         uid: item?.uid,
       });
     });
+    console.log(combinedArray);
 
     // calling context to save all posts to bst tree
     addPostsToBst(temp);
-
-    // setting all posts
-    setAllPosts([...combinedArray]);
   }, [followingPosts, myPosts, searchTerm]);
+  console.log(allPosts);
 
   // console.log(allPosts, searchResults);
 
