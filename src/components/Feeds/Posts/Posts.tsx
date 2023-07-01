@@ -112,6 +112,7 @@ const Posts = ({ userInfo }: PostsProps) => {
 
     // setting all posts
     setAllPosts([...combinedArray]);
+
     // adding posts to bst tree
     let temp: SearchPersonNode | null = null;
     combinedArray.forEach((item) => {
